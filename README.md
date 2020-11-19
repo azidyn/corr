@@ -1,2 +1,2 @@
 # corr
-live shitcoin correlation matrix over websocket
+live correlation binance shitcoins over websocket
