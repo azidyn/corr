@@ -37,10 +37,16 @@ class Core extends EventEmitter {
 
         this.network.connect('binance', bonus + req.join('/') );
 
-        this.network.on('data', payload => {
+        // this.network.on('data', payload => {
             
-            const data = payload.data;
-            this.coins.tick( data );            
+        //     const data = payload.data;
+        //     this.coins.tick( data );            
+
+        // });
+
+        this.network.on('data', ( symbol, price ) => {
+            
+            this.coins.tick( symbol, price );            
 
         });
 

@@ -3,7 +3,7 @@
     <table id='corrtable'>
       <!-- <caption>correlation</caption> -->
         <tr v-for=" (row, indexrow) in matrix " :key="rkey(indexrow)" >
-            <td v-for=" ( col, indexcol ) in row " :key="tkey(row, indexcol)" :title="title(indexrow, indexcol)" :style="getcol( col )">{{ roundnum( col ) }} </td>
+            <td v-for=" ( col, indexcol ) in row " :key="tkey(row, indexcol)" :title="title(indexrow, indexcol)" :style=" getcol(col) ">{{ roundnum( col ) }} </td>
         </tr>
 
     </table>
@@ -12,9 +12,6 @@
 
 <script>
  /* eslint-disable */
-
-
-import HelloWorld from './components/HelloWorld.vue'
 
 import Core from '../../core/Core';
 
@@ -38,6 +35,10 @@ const SPECIAL = ['BTCUSDT', 'ETHUSDT'];
       const id = `${s}_${index}`;
       return id;
     },
+
+    // getClass: function(value) {
+    //   return 'brGreen';
+    // },
 
     roundnum: function( value ) {
 
@@ -69,24 +70,28 @@ const SPECIAL = ['BTCUSDT', 'ETHUSDT'];
         return 'color: black; background-color: rgba(255,255,255,1)';
       }
 
+      if ( isNaN( value ) ) 
+        return 'background-color: rgba(0,0,0,1)';
 
-      // return `background-color: rgba(255,0,0,1)`;
-      if ( isNaN( value ) ) return 'background-color: rgba(0,0,0,1)';
+      // return 'brBlack'; 
       let n = Number( value );
 
       if ( n > 0  ) {
         let g = Math.min( 255, Math.round( 255 * n ) );
         let borw = n > 0.65 ? 'black' : 'white';
+        // return 'brGreen';
         return `color: ${borw}; background-color: rgba(0,${g},0,1)`;
       }
 
       if ( n < 0  ) {
         let r = Math.min( 255, Math.round( 255 * n * -1 ) );
         let borw = n < -0.65 ? 'black' : 'white';
+        // return 'brRed';
         return `color: ${borw}; background-color: rgba(${r},0,0,1)`;
 
       }
 
+      // return 'brBlack';
       return 'background-color: rgba(0,0,0,1)';
 
     }
@@ -103,7 +108,7 @@ const SPECIAL = ['BTCUSDT', 'ETHUSDT'];
 
   mounted( ) {
 
-    this.core = new Core( 30 );
+    this.core = new Core( 25 );
 
     this.core.on('matrix', matrix => {
       // if ( this.counter++ < 5 )
@@ -152,5 +157,21 @@ table {
     border-spacing: 0px;
     border-collapse: separate;
 }
+
+.brBlack { 
+  background-color: black;
+  color: white;
+
+}
+.brGreen { 
+  background-color: green;
+  color: white;
+}
+
+.brRed { 
+  background-color: red;
+  color: black;
+}
+
 
 </style>

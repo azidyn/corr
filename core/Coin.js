@@ -1,7 +1,7 @@
 const pcorr = require('./pcorr');
 const Series = require('./Series');
 
-const MAX_HISTORY = 1000;
+const MAX_HISTORY = 500;
 
 // Class to manage a single market pair e.g. LTCBTC
 
@@ -13,8 +13,6 @@ class Coin {
         this.symbol = symbol;
 
         this.price = 0;
-
-        
 
     }
 
@@ -34,6 +32,8 @@ class Coin {
     tick( price ) {
         
         this.series.poke( price );
+
+        
      
     }
     
@@ -57,13 +57,14 @@ class Coin {
     corr( coin, length=10 ) {
 
         let shortest = Math.min( this.len(), coin.len() );
-
+        
         // Need at last two sample on each pair to calc correlation
-        if ( shortest < 2 )
+        if ( shortest < 2 ) {
             return 0;
+        }
 
         let l = Math.min( shortest, length );
-
+       
         const c =  pcorr( this.history( l ), coin.history( l ) );
 
         return Math.min( 1, Math.max( -1, c ) );

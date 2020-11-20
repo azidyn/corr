@@ -2,8 +2,8 @@
 const EventEmitter  = require('./EventEmitter');
 const Coin          = require("./Coin");
 
-const DEF_INTERVAL = 5000;
-const DEF_CORR_LENGTH = 100;
+const DEF_INTERVAL = 10000;
+const DEF_CORR_LENGTH = 50;
 
 const SPECIAL = ['BTCUSDT', 'ETHUSDT'];
 
@@ -89,17 +89,19 @@ class CoinManager extends EventEmitter {
 
     }
 
-    tick( trade ) {
+    tick( symbol, price ) {
 
-        this.ensure( trade.symbol );
+        // console.log( symbol, price );
 
-        this.coins[ trade.symbol ].trade( trade.price ) ;
+        this.ensure( symbol );
+
+        this.coins[ symbol ].trade( price ) ;
 
         // Means are we updating the correlation matrix for every single tick?
         if ( this.ticks )  {
             
             // First poke the latest price
-            this.coins[ trade.symbol ].tick( trade.price ) ;
+            this.coins[ symbol ].tick( price ) ;
 
             // Now gen the matrix 
             const matrix = this.correlate();

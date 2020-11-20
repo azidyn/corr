@@ -37,7 +37,8 @@ class Series {
         if ( this.poked ) {
             this.data[ this.data.length - 1 ] = value;
         } else {
-            this.data.push( value );
+            let v = value;
+            this.data.push( v );
         }
         
         this.poked = false;
@@ -46,10 +47,12 @@ class Series {
 
     poke( value ) {
 
-        if ( this.poked )
+        if ( this.poked ) {
             this.data[ this.data.length - 1 ] = value;
-        else
-            this.data.push( value ); 
+        } else {
+            let v = value;
+            this.data.push( v ); 
+        }
 
         this.poked = true;
 

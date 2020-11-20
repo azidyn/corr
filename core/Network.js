@@ -5,6 +5,10 @@ const WebSocket     = require('isomorphic-ws');
 const EventEmitter  = require('./EventEmitter');
 const Packet        = require('./Packet');
 
+let _temp;
+
+const DEF_THROTTLE_ETHUSDT = 25, DEF_THROTTLE_BTCUSDT = 25;
+let _eth_ctr = 0, _btc_ctr = 0;
 
 class Network extends EventEmitter {
 
@@ -47,11 +51,33 @@ class Network extends EventEmitter {
          
         this.ws.onmessage = msg => {
 
-            let size = msg.data.length;
+            // let size = msg.data.length;
+            // const data = this.packet.parse( this.exchange, msg.data );
+            // _parse( msg.data )
 
-            const data = this.packet.parse( this.exchange, msg.data );
+            _temp = JSON.parse( msg.data );
 
-            this.fire( 'data', { data, size } );
+            /*
+                 Throttle ETH and BTC USDT pairs. Waaaay too many trades for JS garbage collector to
+                 handle it's like a fucking firehose.
+            */
+
+            if ( _temp.s == 'ETHUSDT') 
+            {
+                if ( _eth_ctr++ % DEF_THROTTLE_ETHUSDT == 0 ) {
+                    this.fire( 'data', _temp.s, Number( _temp.p ) );
+                }
+
+            } else if ( _temp.s == 'BTCUSDT')  {
+
+                if ( _btc_ctr++ % DEF_THROTTLE_BTCUSDT == 0 ) {
+                    _btc_ctr = 0;
+                    this.fire( 'data', _temp.s, Number( _temp.p ) );
+                }
+
+            } else {
+                this.fire( 'data', _temp.s, Number( _temp.p ) );
+            }
 
             //  let agg = JSON.parse( msg.data )
           
