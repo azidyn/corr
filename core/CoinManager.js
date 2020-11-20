@@ -5,6 +5,8 @@ const Coin          = require("./Coin");
 const DEF_INTERVAL = 5000;
 const DEF_CORR_LENGTH = 100;
 
+const SPECIAL = ['BTCUSDT', 'ETHUSDT'];
+
 class CoinManager extends EventEmitter {
 
     constructor() { 
@@ -40,7 +42,7 @@ class CoinManager extends EventEmitter {
         for ( let y of sorted ) {
 
             // Row header = y = 'ADA' or whatever
-            let row = [ y ];
+            let row = [ SPECIAL.includes( y ) ? y : y.replace('BTC','') ];
 
             for ( let x of sorted ) {
                 
@@ -52,7 +54,7 @@ class CoinManager extends EventEmitter {
 
         }
 
-        output[0] = output[0].map( m => m.replace('BTC',''));
+        output[0] = output[0].map( m => SPECIAL.includes( m ) ? m : m.replace('BTC','') );
 
         return output;
 

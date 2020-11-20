@@ -14,6 +14,8 @@ class Coin {
 
         this.price = 0;
 
+        
+
     }
 
     // When the interval has closed, print a new price

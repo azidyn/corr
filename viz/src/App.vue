@@ -18,6 +18,8 @@ import HelloWorld from './components/HelloWorld.vue'
 
 import Core from '../../core/Core';
 
+const SPECIAL = ['BTCUSDT', 'ETHUSDT'];
+
  export default {
   name: 'App',
   components: {
@@ -38,6 +40,7 @@ import Core from '../../core/Core';
     },
 
     roundnum: function( value ) {
+
 
       // HACK: js is retarded
       if ( value == ' ') return value;
@@ -60,6 +63,12 @@ import Core from '../../core/Core';
     },
 
     getcol: function( value ) {
+
+      // hack fudge to embiggen btc/eth usdt pairs
+      if ( SPECIAL.includes( value ) ) {
+        return 'color: black; background-color: rgba(255,255,255,1)';
+      }
+
 
       // return `background-color: rgba(255,0,0,1)`;
       if ( isNaN( value ) ) return 'background-color: rgba(0,0,0,1)';
