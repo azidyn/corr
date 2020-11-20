@@ -40,7 +40,7 @@ class CoinManager extends EventEmitter {
         for ( let y of sorted ) {
 
             // Row header = y = 'ADA' or whatever
-            let row = [ y.replace('BTC','') ];
+            let row = [ y ];
 
             for ( let x of sorted ) {
                 

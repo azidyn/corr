@@ -54,10 +54,7 @@ class Coin {
 
     corr( coin, length=10 ) {
 
-        const l1 = this.len();
-        const l2 = coin.len();
-
-        let shortest = Math.min( l1, l2 );
+        let shortest = Math.min( this.len(), coin.len() );
 
         // Need at last two sample on each pair to calc correlation
         if ( shortest < 2 )
@@ -65,7 +62,9 @@ class Coin {
 
         let l = Math.min( shortest, length );
 
-        return pcorr( this.history( l ), coin.history( l ) );
+        const c =  pcorr( this.history( l ), coin.history( l ) );
+
+        return Math.min( 1, Math.max( -1, c ) );
 
     }
 

@@ -30,11 +30,12 @@ class Core extends EventEmitter {
     start() {
 
         // kek binance endpoint param convention is retarded look at this shit
-        // let bonus = `btcusdt@aggTrade/ethusdt@aggTrade/`;
 
         let req = this.symbols.map( s => `${s}btc@aggTrade`);
 
-        this.network.connect('binance', req.join('/') );
+        let bonus = `btcusdt@aggTrade/ethusdt@aggTrade/`;
+
+        this.network.connect('binance', bonus + req.join('/') );
 
         this.network.on('data', payload => {
             
