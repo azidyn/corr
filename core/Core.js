@@ -1,5 +1,6 @@
 
- /* eslint-disable */
+// using a linter; female trait
+/* eslint-disable */
 
 const tickers       = require('./cg100new.json');
 const Network       = require('./Network');
